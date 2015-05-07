@@ -1,0 +1,5 @@
+simplescreenrecorder (0.3.3-1) unstable; urgency=low
+
+  * Initial release (Closes: #722249).
+
+ -- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>  Thu, 07 May 2015 16:58:42 +0200

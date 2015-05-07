@@ -1,0 +1,24 @@
+simplescreenrecorder for Debian
+-------------------------------
+
+* Support for non-Linux kernels
+
+  simplescreenrecorder currently fails to build from source on non-linux
+  kernels since the ALSA emulation available through the SALSA library [1]
+  is incomplete with some symbols used by simplescreenrecorder missing. It
+  seems that the SALSA library is currently unmaintained as the last version
+  was released 2012. Thus, unless upstream adapts ssr for non-Linux kernels
+  or allows to disable sound support, the simplescreenrecorder package will
+  be currently Linux-only.
+
+* OpenGL recording support
+
+  OpenGL recording requires glinject to be available on the target platform
+  which uses elfhacks which is currently available on x86 only. Thus, OpenGL
+  recording has been enabled on amd64 and i386 only. See this issue [2] in the
+  upstream bugtracker for more.
+
+> [1] http://www.alsa-project.org/main/index.php/SALSA-Library
+> [2] https://github.com/MaartenBaert/ssr/issues/30
+
+ -- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>  Thu, 07 May 2015 08:05:25 +0200

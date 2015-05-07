@@ -1,0 +1,41 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+#DH_VERBOSE = 1
+
+# see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+# see FEATURE AREAS in dpkg-buildflags(1)
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to append CFLAGS
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# package maintainers to append LDFLAGS
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+ARCH = $(shell dpkg --print-architecture)
+
+# main packaging script based on dh7 syntax
+%:
+	dh $@  --with autotools-dev
+
+# * Jack support is disabled because it requires library
+#   packages which currently break some ALSA installations
+# * simplescreenrecorder is configured to use libav libraries
+#   here as libav is currently still default on Debian
+# * glinjectlib is disabled on non-x86 systems as it
+#   requires the x86-only elfhacks code (see README.source)
+override_dh_auto_configure:
+ifeq ($(ARCH),$(filter $(ARCH),amd64 i386))
+		dh_auto_configure -- \
+		--without-jack \
+		--disable-ffmpeg-versions
+else
+		dh_auto_configure -- \
+		--without-jack \
+		--disable-ffmpeg-versions \
+		--disable-glinjectlib
+endif
